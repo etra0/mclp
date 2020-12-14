@@ -1,16 +1,19 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <stdexcept>
+#include <limits>
+#include <iterator>
 
 class Node {
     public:
-    Node(std::string nodes_filename, std::string demand_filename);
-
     std::vector<std::pair<int, int>> nodes;
     std::vector<int> demand;
 
+    Node();
+
     void print();
 
-    private:
-    void parse_file();
+    void parse_files(std::string nodes_filename, std::string demand_filename);
 };
