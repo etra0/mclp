@@ -1,6 +1,7 @@
 CXX = g++
 OUTPUT_PATH = bin
 SOURCE_PATH = src
+MAIN = $(SOURCE_PATH)/main.cpp
 
 WARNINGS = -Wall -Weffc++ -pedantic \
 	-pedantic-errors -Wextra -Wcast-align \
@@ -11,10 +12,10 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-Wformat-y2k \
 	-Wimport  -Winit-self  -Winline \
 	-Winvalid-pch   \
-	-Wunsafe-loop-optimizations  -Wlong-long -Wmissing-braces \
+	-Wlong-long -Wmissing-braces \
 	-Wmissing-field-initializers -Wmissing-format-attribute   \
 	-Wmissing-include-dirs -Wmissing-noreturn \
-	-Wpacked  -Wpadded -Wparentheses  -Wpointer-arith \
+	-Wpacked  -Wparentheses  -Wpointer-arith \
 	-Wredundant-decls -Wreturn-type \
 	-Wsequence-point  -Wshadow -Wsign-compare  -Wstack-protector \
 	-Wstrict-aliasing -Wstrict-aliasing=2 -Wswitch  -Wswitch-default \
@@ -29,13 +30,22 @@ EXECUTABLE = $(OUTPUT_PATH)/mclp
 
 .PHONY: all clean
 
-all: $(EXECUTABLE)
+all: $(OUTPUT_PATH) $(EXECUTABLE)
 
-$(EXECUTABLE): $(SOURCE_PATH)/main.cpp $(OUTPUT_PATH)/parser.o
+test:
+	@echo "Doing testing"
+
+run: all
+	$(OUTPUT_PATH)/mclp
+
+$(OUTPUT_PATH):
+	mkdir $(OUTPUT_PATH)
+
+$(EXECUTABLE): $(MAIN) $(filter-out $(MAIN),$(wildcard $(SOURCE_PATH)/*.cpp))
 	$(CXX) $(FLAGS) -o $@ $^ -lstdc++
 
-$(OUTPUT_PATH)/%.o: $(SOURCE_PATH)/%.cpp
+$(OUTPUT_PATH)/%.o: $(SOURCE_PATH)/%.cpp $(SOURCE_PATH)/mclp/%.hpp
 	$(CXX) -c $(FLAGS) $< -o $@
 
 clean:
-	rm $(OUTPUT_PATH)/*
+	rm -rf $(OUTPUT_PATH)/*

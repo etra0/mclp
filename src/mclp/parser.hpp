@@ -6,9 +6,13 @@
 #include <limits>
 #include <iterator>
 
+#pragma once
+
+typedef std::pair<int, int> coord;
+
 class Node {
     public:
-    std::vector<std::pair<int, int>> nodes;
+    std::vector<coord> nodes;
     std::vector<int> demand;
 
     Node(): nodes(), demand() {};
