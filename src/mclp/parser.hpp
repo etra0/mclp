@@ -11,7 +11,7 @@ class Node {
     std::vector<std::pair<int, int>> nodes;
     std::vector<int> demand;
 
-    Node();
+    Node(): nodes(), demand() {};
 
     void print();
 
