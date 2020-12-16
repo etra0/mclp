@@ -26,7 +26,7 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-Wvolatile-register-var  -Wwrite-strings 
 
 STACKTRACE = -fsanitize=address,undefined -fno-omit-frame-pointer -finstrument-functions
-FLAGS = -g $(WARNINGS) $(STACKTRACE) --std=c++17 -O0 -I$(SOURCE_PATH) 
+FLAGS = -g $(WARNINGS) $(STACKTRACE) --std=c++11 -O0 -I$(SOURCE_PATH) 
 
 EXECUTABLE = $(OUTPUT_PATH)/mclp
 
@@ -43,11 +43,11 @@ run: all
 $(OUTPUT_PATH):
 	mkdir $(OUTPUT_PATH)
 
-$(EXECUTABLE): $(MAIN) $(filter-out $(MAIN),$(wildcard $(SOURCE_PATH)/*.cpp))
-	$(CXX) $(FLAGS) -o $@ $^ -lstdc++
+$(EXECUTABLE): $(MAIN) $(patsubst $(SOURCE_PATH)/%.cpp, $(OUTPUT_PATH)/%.o, $(filter-out $(MAIN),$(wildcard $(SOURCE_PATH)/*.cpp)))
+	$(CXX) $(FLAGS) -o $@ $^
 
 $(OUTPUT_PATH)/%.o: $(SOURCE_PATH)/%.cpp $(SOURCE_PATH)/mclp/%.hpp
-	$(CXX) -c $(FLAGS) $< -o $@
+	$(CXX) $(FLAGS) -c  $< -o $@
 
 clean:
 	rm -rf $(OUTPUT_PATH)/*
