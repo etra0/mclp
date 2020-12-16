@@ -25,7 +25,9 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-Wunused-value  -Wunused-variable  -Wvariadic-macros \
 	-Wvolatile-register-var  -Wwrite-strings 
 
-FLAGS = -g $(WARNINGS) --std=c++17 -O0 -I$(SOURCE_PATH) 
+STACKTRACE = -fsanitize=address,undefined -fno-omit-frame-pointer -finstrument-functions
+FLAGS = -g $(WARNINGS) $(STACKTRACE) --std=c++17 -O0 -I$(SOURCE_PATH) 
+
 EXECUTABLE = $(OUTPUT_PATH)/mclp
 
 .PHONY: all clean
