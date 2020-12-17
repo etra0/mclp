@@ -22,7 +22,9 @@ public:
   // Number of iterations
   int it;
 
-  Arguments(const int argc, const char *argv[]);
+  Arguments() : nodes(), demand(), p(0), S(0), it(0){};
+
+  int parse(const int argc, const char *argv[]);
 
   // Print the `how to use` message. This function gets triggered when you
   // input incorrect parameters on when you do `--help`

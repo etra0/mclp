@@ -1,24 +1,23 @@
 #include <mclp/argparse.hpp>
 
-Arguments::Arguments(const int argc, const char *argv[])
-    : nodes(), demand(), p(0), S(0), it(0) {
-
+int Arguments::parse(const int argc, const char *argv[]) {
   if (argc >= 2 && argc < 6) {
     std::string arg = argv[1];
     if (arg == "--default") {
       std::cout << "Using default arguments" << std::endl;
       this->default_arguments();
-      return;
+      return 1;
     } else if (arg == "--help") {
       Arguments::usage();
+      return 0;
     } else {
       Arguments::usage();
       throw std::invalid_argument("Some arguments are missing");
     }
-  } else {
+  } else if (argc > 6 || argc == 1) {
     Arguments::usage();
     throw std::invalid_argument("Incorrect arguments");
-  }
+  } 
 
   nodes = argv[1];
   demand = argv[2];
@@ -32,8 +31,10 @@ Arguments::Arguments(const int argc, const char *argv[])
     S = std::stoi(S_);
     it = std::stoi(it_);
   } catch (std::invalid_argument &e) {
-    throw;
+    throw std::invalid_argument("Can't parse one of the arguments");
   }
+
+  return 1;
 }
 
 void Arguments::default_arguments() {

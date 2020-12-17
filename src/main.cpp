@@ -6,10 +6,11 @@
 #include <stdexcept>
 
 int main(const int argc, const char *argv[]) {
-  std::unique_ptr<Arguments> args;
+  Arguments args {};
 
   try {
-    args = std::make_unique<Arguments>(argc, argv);
+    if (!args.parse(argc, argv))
+        return EXIT_SUCCESS;
   } catch (std::invalid_argument &e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
@@ -17,17 +18,19 @@ int main(const int argc, const char *argv[]) {
 
   Domain d;
   try {
-    d.parse_files(args->nodes, args->demand);
+    d.parse_files(args.nodes, args.demand);
   } catch (std::invalid_argument &e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }
 
-  Solver s(d, args->p, args->S);
+  Solver s(d, args.p, args.S);
 
   s.find_initial_solution();
 
   s.print();
+
+  s.save_solution();
 
   return EXIT_SUCCESS;
 }

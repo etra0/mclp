@@ -13,6 +13,7 @@ public:
   Solver(Domain domain_, int p_, int S_)
       : domain(domain_), best_solution(), p(p_), S(S_){};
 
-  void print();
   void find_initial_solution();
+  void print();
+  void save_solution();
 };

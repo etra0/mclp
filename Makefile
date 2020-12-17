@@ -26,13 +26,17 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-Wvolatile-register-var  -Wwrite-strings 
 
 STACKTRACE = -fsanitize=address,undefined -fno-omit-frame-pointer -finstrument-functions
-FLAGS = $(WARNINGS) $(STACKTRACE) --std=c++17 -O3 -I$(SOURCE_PATH) 
+FLAGS = -g $(WARNINGS) $(STACKTRACE) --std=c++17 -O0 -I$(SOURCE_PATH) 
+FLAGS_RELEASE = --std=c++17 -O3 -I$(SOURCE_PATH)
 
 EXECUTABLE = $(OUTPUT_PATH)/mclp
 
 .PHONY: all clean run
 
 all: $(OUTPUT_PATH) $(EXECUTABLE)
+
+release: FLAGS = $(FLAGS_RELEASE)
+release: all
 
 run: all
 	$(OUTPUT_PATH)/mclp
