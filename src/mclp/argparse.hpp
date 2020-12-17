@@ -1,7 +1,7 @@
-#include <vector>
-#include <string>
 #include <iostream>
 #include <stdexcept>
+#include <string>
+#include <vector>
 
 /*
  * Arguments is in charge to do all the checkings about the arguments passed
@@ -9,31 +9,31 @@
  * them to the respective classes & algorithms
  */
 class Arguments {
-	public:
-	std::string nodes;
-	std::string demand;
+public:
+  std::string nodes;
+  std::string demand;
 
-	// number of available servers
-	int p;
+  // number of available servers
+  int p;
 
-	// maximum radius
-	int S;
+  // maximum radius
+  int S;
 
-	// Number of iterations
-	int it;
+  // Number of iterations
+  int it;
 
-	Arguments(const int argc, const char *argv[]);
+  Arguments(const int argc, const char *argv[]);
 
-    // Print the `how to use` message. This function gets triggered when you
-    // input incorrect parameters on when you do `--help`
-	static void usage();
+  // Print the `how to use` message. This function gets triggered when you
+  // input incorrect parameters on when you do `--help`
+  static void usage();
 
-    // Run the program with **arbitrary** default arguments (mainly used for
-    // testing), those are:
-    //
-    // nodes = "./instances/SJC324.txt"
-    // demand = "./instances/demand-SJC324.dat"
-    // p = 5
-    // S = 1200
-	void default_arguments();
+  // Run the program with **arbitrary** default arguments (mainly used for
+  // testing), those are:
+  //
+  // nodes = "./instances/SJC324.txt"
+  // demand = "./instances/demand-SJC324.dat"
+  // p = 5
+  // S = 1200
+  void default_arguments();
 };

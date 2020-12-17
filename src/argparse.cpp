@@ -16,8 +16,8 @@ Arguments::Arguments(const int argc, const char *argv[])
       throw std::invalid_argument("Some arguments are missing");
     }
   } else {
-      Arguments::usage();
-      throw std::invalid_argument("Incorrect arguments");
+    Arguments::usage();
+    throw std::invalid_argument("Incorrect arguments");
   }
 
   nodes = argv[1];

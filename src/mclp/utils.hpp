@@ -1,5 +1,7 @@
 #include <cmath>
+#include <mclp/parser.hpp>
+#include <utility>
 
 namespace utils {
-    int eucl_distance(std::pair<int, int> const & a, std::pair<int, int> const & b);
+int eucl_distance(Node const &a, Node const &b);
 }

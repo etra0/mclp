@@ -1,7 +1,11 @@
 #include <mclp/parser.hpp>
 
-void Node::parse_files(std::string nodes_filename,
-                       std::string demand_filename) {
+void Node::print() {
+  std::cout << "{ x: " << x << ", y: " << y << ", demand: " << demand << " }\n";
+}
+
+void Domain::parse_files(std::string nodes_filename,
+                         std::string demand_filename) {
   std::ifstream nodes_file;
   std::ifstream demand_file;
 
@@ -21,30 +25,20 @@ void Node::parse_files(std::string nodes_filename,
 
   // First read the number of pairs.
   nodes_file >> N;
-  for (uint32_t i = 0; i < N; i++) {
-    int a, b;
-    nodes_file >> a;
-    nodes_file >> b;
-    this->nodes.push_back(std::pair<int, int>(a, b));
-  }
 
-  std::istream_iterator<int> iter(demand_file);
-  std::copy(iter, std::istream_iterator<int>(),
-            std::back_inserter(this->demand));
-  if (this->demand.size() != N) {
-    throw std::invalid_argument(
-        "The number of elements in node doesn't match with demand");
+  for (uint32_t i = 0; i < N; i++) {
+    int x, y;
+    uint32_t demand;
+    nodes_file >> x;
+    nodes_file >> y;
+    demand_file >> demand;
+    this->nodes.emplace_back(x, y, demand);
   }
 }
 
-void Node::print() {
+void Domain::print() {
   std::cout << "Nodes:" << std::endl;
   for (auto t : this->nodes) {
-    std::cout << t.first << " " << t.second << std::endl;
-  }
-
-  std::cout << "Demand:" << std::endl;
-  for (auto t : this->demand) {
-    std::cout << t << std::endl;
+    t.print();
   }
 }

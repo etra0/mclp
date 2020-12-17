@@ -1,4 +1,4 @@
-CXX = g++
+CXX = clang++
 OUTPUT_PATH = bin
 SOURCE_PATH = src
 MAIN = $(SOURCE_PATH)/main.cpp
@@ -26,16 +26,13 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-Wvolatile-register-var  -Wwrite-strings 
 
 STACKTRACE = -fsanitize=address,undefined -fno-omit-frame-pointer -finstrument-functions
-FLAGS = -g $(WARNINGS) $(STACKTRACE) --std=c++11 -O0 -I$(SOURCE_PATH) 
+FLAGS = $(WARNINGS) $(STACKTRACE) --std=c++17 -O3 -I$(SOURCE_PATH) 
 
 EXECUTABLE = $(OUTPUT_PATH)/mclp
 
-.PHONY: all clean
+.PHONY: all clean run
 
 all: $(OUTPUT_PATH) $(EXECUTABLE)
-
-test:
-	@echo "Doing testing"
 
 run: all
 	$(OUTPUT_PATH)/mclp

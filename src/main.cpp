@@ -15,17 +15,19 @@ int main(const int argc, const char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  Node n;
+  Domain d;
   try {
-    n.parse_files(args->nodes, args->demand);
+    d.parse_files(args->nodes, args->demand);
   } catch (std::invalid_argument &e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   }
 
-  Solver s(n, args->p, args->S);
+  Solver s(d, args->p, args->S);
 
   s.find_initial_solution();
+
+  s.print();
 
   return EXIT_SUCCESS;
 }
