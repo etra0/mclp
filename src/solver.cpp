@@ -17,14 +17,14 @@ void Solver::find_initial_solution() {
     uint32_t best_case_counter = 0;
 
     for (size_t i = 0; i < nodes.size(); i++) {
-      const auto &point = nodes[i];
+      const auto &origin = nodes[i];
       uint32_t counter = 0;
 
       // Check the count of nodes that are in the specified radius
-      for (auto point2 : nodes) {
-        auto distance = utils::eucl_distance(point, point2);
+      for (auto destination : nodes) {
+        auto distance = utils::eucl_distance(origin, destination);
         if (distance <= S) {
-          counter += point2.demand;
+          counter += destination.demand;
         }
       }
 
