@@ -1,23 +1,29 @@
-#include <vector>
-#include <string>
-#include <iostream>
 #include <fstream>
-#include <stdexcept>
-#include <limits>
+#include <iostream>
 #include <iterator>
+#include <limits>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
 #pragma once
 
-typedef std::pair<int, int> coord;
-
 class Node {
-    public:
-    std::vector<coord> nodes;
-    std::vector<int> demand;
+public:
+  int x;
+  int y;
+  uint32_t demand;
 
-    Node(): nodes(), demand() {};
+  Node(int x_, int y_, uint32_t demand_) : x(x_), y(y_), demand(demand_){};
+  void print();
+};
 
-    void print();
+class Domain {
+public:
+  std::vector<Node> nodes;
 
-    void parse_files(std::string nodes_filename, std::string demand_filename);
+  Domain() : nodes(){};
+
+  void print();
+  void parse_files(std::string nodes_filename, std::string demand_filename);
 };

@@ -1,4 +1,4 @@
-CXX = g++
+CXX = clang++
 OUTPUT_PATH = bin
 SOURCE_PATH = src
 MAIN = $(SOURCE_PATH)/main.cpp
@@ -25,15 +25,14 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-Wunused-value  -Wunused-variable  -Wvariadic-macros \
 	-Wvolatile-register-var  -Wwrite-strings 
 
-FLAGS = -g $(WARNINGS) --std=c++17 -O0 -I$(SOURCE_PATH) 
+STACKTRACE = -fsanitize=address,undefined -fno-omit-frame-pointer -finstrument-functions
+FLAGS = $(WARNINGS) $(STACKTRACE) --std=c++17 -O3 -I$(SOURCE_PATH) 
+
 EXECUTABLE = $(OUTPUT_PATH)/mclp
 
-.PHONY: all clean
+.PHONY: all clean run
 
 all: $(OUTPUT_PATH) $(EXECUTABLE)
-
-test:
-	@echo "Doing testing"
 
 run: all
 	$(OUTPUT_PATH)/mclp
@@ -41,11 +40,11 @@ run: all
 $(OUTPUT_PATH):
 	mkdir $(OUTPUT_PATH)
 
-$(EXECUTABLE): $(MAIN) $(filter-out $(MAIN),$(wildcard $(SOURCE_PATH)/*.cpp))
-	$(CXX) $(FLAGS) -o $@ $^ -lstdc++
+$(EXECUTABLE): $(MAIN) $(patsubst $(SOURCE_PATH)/%.cpp, $(OUTPUT_PATH)/%.o, $(filter-out $(MAIN),$(wildcard $(SOURCE_PATH)/*.cpp)))
+	$(CXX) $(FLAGS) -o $@ $^
 
 $(OUTPUT_PATH)/%.o: $(SOURCE_PATH)/%.cpp $(SOURCE_PATH)/mclp/%.hpp
-	$(CXX) -c $(FLAGS) $< -o $@
+	$(CXX) $(FLAGS) -c  $< -o $@
 
 clean:
 	rm -rf $(OUTPUT_PATH)/*
