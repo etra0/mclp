@@ -19,6 +19,7 @@ void Solver::save_solution() {
 }
 
 void Solver::find_initial_solution() {
+  utils::Benchmark b(__FUNCTION__);
   // Do a deep copy to avoid some UB.
   auto nodes = std::vector<Node>(this->domain.nodes);
   auto loop_counter = this->p;

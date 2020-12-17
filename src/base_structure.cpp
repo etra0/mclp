@@ -1,4 +1,4 @@
-#include <mclp/parser.hpp>
+#include <mclp/base_structure.hpp>
 
 void Node::print() {
   std::cout << "{ x: " << x << ", y: " << y << ", demand: " << demand << " }\n";
