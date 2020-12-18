@@ -17,7 +17,7 @@ int Arguments::parse(const int argc, const char *argv[]) {
   } else if (argc > 6 || argc == 1) {
     Arguments::usage();
     throw std::invalid_argument("Incorrect arguments");
-  } 
+  }
 
   nodes = argv[1];
   demand = argv[2];

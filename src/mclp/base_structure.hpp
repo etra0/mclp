@@ -6,7 +6,8 @@
 #include <string>
 #include <vector>
 
-#pragma once
+#ifndef MCLP_MCLP_BASE_STRUCTURE_H_
+#define MCLP_MCLP_BASE_STRUCTURE_H_
 
 class Node {
 public:
@@ -27,3 +28,5 @@ public:
   void print();
   void parse_files(std::string nodes_filename, std::string demand_filename);
 };
+
+#endif // MCLP_MCLP_BASE_STRUCTURE_H_

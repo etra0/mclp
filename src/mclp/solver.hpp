@@ -2,6 +2,9 @@
 #include <mclp/utils.hpp>
 #include <set>
 
+#ifndef MCLP_MCLP_SOLVER_H_
+#define MCLP_MCLP_SOLVER_H_
+
 class Solver {
 public:
   Domain domain;
@@ -19,3 +22,5 @@ public:
   void print();
   void save_solution();
 };
+
+#endif // MCLP_MCLP_SOLVER_H_

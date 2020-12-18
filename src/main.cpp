@@ -6,11 +6,11 @@
 #include <stdexcept>
 
 int main(const int argc, const char *argv[]) {
-  Arguments args {};
+  Arguments args{};
 
   try {
     if (!args.parse(argc, argv))
-        return EXIT_SUCCESS;
+      return EXIT_SUCCESS;
   } catch (std::invalid_argument &e) {
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
