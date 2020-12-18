@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 
+def eucl_distance(a, b):
+    x = a[0] - b[0]
+    y = a[1] - b[1]
+    return np.sqrt(x*x + y*y)
+
 
 def parse_files(nodes, demand, solution):
     with open(nodes, "r") as f:
@@ -39,14 +44,48 @@ if __name__ == "__main__":
 
     (nodes, demand, solution, radius) = parse_files(args.nodes, args.demand, args.solution)
 
-    x, y = zip(*nodes)
-    fig, ax = plt.subplots()
+    # Add a color index
+    for node in nodes:
+        node.append(-1)
 
-    ax.scatter(x, y, s=demand)
+    for i, sol in enumerate(solution):
+        for node in nodes:
+            if eucl_distance(node, sol) < radius:
+                node[2] = i
+
+    scale = 1.5
+    fig, ax = plt.subplots(figsize=(6*scale, 5*scale))
+
+    nodes = np.array(nodes)
+    demand = np.array(demand)
+
+    # First draw the ones that weren't considered
+    mask = nodes[:, 2] == -1
+    _nodes = nodes[mask]
+    _demand = demand[mask]
+    x, y, _ = zip(*_nodes)
+
+    ax.scatter(x, y, s=_demand, label=f"Not considered", alpha=0.5)
+    for i, sol in enumerate(solution):
+        mask = nodes[:, 2] == i
+        _nodes = nodes[mask]
+        _demand = demand[mask]
+        x, y, _ = zip(*_nodes)
+
+        ax.scatter(x, y, s=_demand, label=f"Considered by solution {i}")
+
     for sol in solution:
-        circ = plt.Circle(sol, radius, color='r', fill=False)
+        x, y = sol
+        ax.scatter(x, y, marker="x", color="r")
+        circ = plt.Circle((x, y), radius, color='r', fill=False)
         ax.add_artist(circ)
+
+
+    ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+
     ax.set_aspect('equal')
+
+    plt.tight_layout()
 
     fig.savefig("out.png", dpi=300)
 
