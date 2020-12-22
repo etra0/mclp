@@ -28,7 +28,7 @@ public:
   void find_initial_solution();
 
   // Use tabu search to refine solution in order to find a more optimal one.
-  void refine_solution();
+  int refine_solution();
 
   void print();
   void save_solution(std::string name);

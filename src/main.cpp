@@ -36,7 +36,8 @@ int main(const int argc, const char *argv[]) {
   char buffer[100];
   std::memset(buffer, 0, sizeof(char));
   for (int i = 1; i < 10; i++) {
-    s.refine_solution();
+    if (!s.refine_solution())
+      break;
     sprintf(buffer, "solutions/solution_%02d", i);
     s.save_solution(buffer);
   }
