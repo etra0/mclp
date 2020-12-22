@@ -15,6 +15,6 @@ utils::Benchmark::~Benchmark() {
   auto elapsed =
       std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
           .count();
-  std::cout << "Time elapsed in " << name << ": " << elapsed << "ms"
+  std::cout << "Time elapsed in `" << name << "`: " << elapsed << "ms"
             << std::endl;
 }

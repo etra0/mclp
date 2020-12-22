@@ -17,9 +17,10 @@ public:
   std::string name;
   std::chrono::time_point<std::chrono::high_resolution_clock> start;
   Benchmark(const char *name_);
-  Benchmark() : name("unknown"){};
+  Benchmark() : name("unknown"), start(){};
   ~Benchmark();
 };
-} // namespace utils
+
+}
 
 #endif // MCLP_MCLP_UTILS_H_

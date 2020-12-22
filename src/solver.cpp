@@ -30,8 +30,15 @@ void Solver::find_initial_solution() {
 
   // initial_sol will contain the index of 
   std::set<uint32_t> initial_sol{};
+
+  // We shouldn't lookup for already covered cases to avoid some repetition
   std::set<size_t> covered_cases{};
+
+  // current_covered_cases are the covered cases per iteration
   std::set<size_t> current_covered_cases{};
+
+  // The best_current_covered_cases are the cases covered by the best
+  // iteration, similar to best_case_p and best_case_counter
   std::set<size_t> best_current_covered_cases{};
 
 
@@ -40,6 +47,7 @@ void Solver::find_initial_solution() {
     uint32_t best_case_counter = 0;
 
     for (size_t i = 0; i < nodes.size(); i++) {
+      // Skip nodes already covered
       if (covered_cases.find(i) != covered_cases.end())
         continue;
       auto const& origin = nodes[i];
@@ -48,7 +56,6 @@ void Solver::find_initial_solution() {
 
       uint32_t counter = 0;
 
-      // Check the count of nodes that are in the specified radius
       for (size_t j = 0; j < nodes.size(); j++) {
         if (covered_cases.find(j) != covered_cases.end() || i == j)
           continue;
