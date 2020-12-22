@@ -1,10 +1,12 @@
 #include <mclp/base_structure.hpp>
 
-void Node::print() {
+namespace mclp {
+
+void node::print() {
   std::cout << "{ x: " << x << ", y: " << y << ", demand: " << demand << " }\n";
 }
 
-void Domain::parse_files(std::string nodes_filename,
+void domain::parse_files(std::string nodes_filename,
                          std::string demand_filename) {
   std::ifstream nodes_file;
   std::ifstream demand_file;
@@ -36,9 +38,11 @@ void Domain::parse_files(std::string nodes_filename,
   }
 }
 
-void Domain::print() {
+void domain::print() {
   std::cout << "Nodes:" << std::endl;
   for (auto t : this->nodes) {
     t.print();
   }
 }
+
+} // namespace mclp

@@ -1,16 +1,18 @@
 #include <mclp/utils.hpp>
 
-int utils::eucl_distance(Node const &a, Node const &b) {
+namespace mclp {
+
+uint32_t utils::eucl_distance(node const &a, node const &b) {
   auto x = a.x - b.x;
   auto y = a.y - b.y;
-  return static_cast<int>(std::sqrt(x * x + y * y));
+  return static_cast<uint32_t>(std::sqrt(x * x + y * y));
 }
 
-utils::Benchmark::Benchmark(const char *name_) : name(name_), start() {
+utils::benchmark::benchmark(const char *name) : name(name), start() {
   start = std::chrono::high_resolution_clock::now();
 }
 
-utils::Benchmark::~Benchmark() {
+utils::benchmark::~benchmark() {
   auto end = std::chrono::high_resolution_clock::now();
   auto elapsed =
       std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
@@ -18,3 +20,5 @@ utils::Benchmark::~Benchmark() {
   std::cout << "Time elapsed in `" << name << "`: " << elapsed << "ms"
             << std::endl;
 }
+
+} // namespace mclp

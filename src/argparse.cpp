@@ -1,6 +1,8 @@
 #include <mclp/argparse.hpp>
 
-int Arguments::parse(const int argc, const char *argv[]) {
+namespace mclp {
+
+int arguments::parse(const int argc, const char *argv[]) {
   if (argc >= 2 && argc < 6) {
     std::string arg = argv[1];
     if (arg == "--default") {
@@ -8,14 +10,14 @@ int Arguments::parse(const int argc, const char *argv[]) {
       this->default_arguments();
       return 1;
     } else if (arg == "--help") {
-      Arguments::usage();
+      arguments::usage();
       return 0;
     } else {
-      Arguments::usage();
+      arguments::usage();
       throw std::invalid_argument("Some arguments are missing");
     }
   } else if (argc > 6 || argc == 1) {
-    Arguments::usage();
+    arguments::usage();
     throw std::invalid_argument("Incorrect arguments");
   }
 
@@ -27,9 +29,9 @@ int Arguments::parse(const int argc, const char *argv[]) {
   std::string it_ = argv[5];
 
   try {
-    p = std::stoi(p_);
-    S = std::stoi(S_);
-    it = std::stoi(it_);
+    p = static_cast<uint32_t>(std::stoul(p_));
+    S = static_cast<uint32_t>(std::stoul(S_));
+    it = static_cast<uint32_t>(std::stoul(it_));
   } catch (std::invalid_argument &e) {
     throw std::invalid_argument("Can't parse one of the arguments");
   }
@@ -37,14 +39,15 @@ int Arguments::parse(const int argc, const char *argv[]) {
   return 1;
 }
 
-void Arguments::default_arguments() {
+void arguments::default_arguments() {
   nodes = "./instances/SJC324.txt";
   demand = "./instances/demand-SJC324.dat";
   p = 5;
   S = 1200;
+  it = 10;
 }
 
-void Arguments::usage() {
+void arguments::usage() {
   std::cout << u8"MCLP Solver by Sebastián Aedo\n" << std::endl;
   std::cout << "USAGE: \n"
                "\t./bin/mclp <nodes_file> <demand_file> <p> <S> <it>\n"
@@ -53,3 +56,5 @@ void Arguments::usage() {
                "\t* S: Maximum radius\n"
                "\t* it: Number of iterations\n";
 }
+
+} // namespace mclp

@@ -6,26 +6,28 @@
 #ifndef MCLP_MCLP_ARGPARSE_H_
 #define MCLP_MCLP_ARGPARSE_H_
 
+namespace mclp {
+
 /*
- * Arguments is in charge to do all the checkings about the arguments passed
+ * arguments is in charge to do all the checkings about the arguments passed
  * when running the program. It'll contain all the parameters as well to pass
  * them to the respective classes & algorithms
  */
-class Arguments {
+class arguments {
 public:
   std::string nodes;
   std::string demand;
 
   // number of available servers
-  int p;
+  uint32_t p;
 
   // maximum radius
-  int S;
+  uint32_t S;
 
-  // Number of iterations
-  int it;
+  // Number of iterations to do while doing the Tabu Search
+  uint32_t it;
 
-  Arguments() : nodes(), demand(), p(0), S(0), it(0){};
+  arguments() : nodes(), demand(), p(0), S(0), it(0){};
 
   int parse(const int argc, const char *argv[]);
 
@@ -43,4 +45,5 @@ public:
   void default_arguments();
 };
 
+} // namespace mclp
 #endif // MCLP_MCLP_ARGPARSE_H_

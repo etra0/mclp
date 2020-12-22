@@ -7,7 +7,7 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-pedantic-errors -Wextra -Wcast-align \
 	-Wcast-qual  -Wchar-subscripts  -Wcomment -Wconversion \
 	-Wdisabled-optimization \
-	-Werror -Wfloat-equal -Wformat  -Wformat=2 \
+	-Wfloat-equal -Wformat  -Wformat=2 \
 	-Wformat-nonliteral -Wformat-security  \
 	-Wformat-y2k \
 	-Wimport  -Winit-self  -Winline \
@@ -25,7 +25,7 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-Wunused-value  -Wunused-variable  -Wvariadic-macros \
 	-Wvolatile-register-var  -Wwrite-strings 
 
-STACKTRACE = -fsanitize=address,undefined -fno-omit-frame-pointer -finstrument-functions
+STACKTRACE = -fsanitize=address,undefined -fno-omit-frame-pointer
 FLAGS = -g $(WARNINGS) $(STACKTRACE) --std=c++17 -O0 -I$(SOURCE_PATH) 
 FLAGS_RELEASE = --std=c++17 -O3 -I$(SOURCE_PATH)
 

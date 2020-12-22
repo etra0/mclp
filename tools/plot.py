@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import argparse
+from pathlib import Path
 
 def eucl_distance(a, b):
     x = a[0] - b[0]
@@ -29,10 +30,11 @@ def parse_files(nodes, demand, solution):
         data = f.read()
 
     solution = []
-    radius = int(data.split("\n")[0])
-    for v in data.split("\n")[1:-1]:
+    current_score = int(data.split("\n")[0])
+    radius = int(data.split("\n")[1])
+    for v in data.split("\n")[2:-1]:
         solution.append(list(map(int, v.split(" "))))
-    return (nodes, demand, solution, radius)
+    return (nodes, demand, solution, radius, current_score)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Plot solution")
@@ -42,7 +44,9 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    (nodes, demand, solution, radius) = parse_files(args.nodes, args.demand, args.solution)
+    print(f"Plotting {args.solution}")
+
+    (nodes, demand, solution, radius, current_score) = parse_files(args.nodes, args.demand, args.solution)
 
     # Add a color index
     for node in nodes:
@@ -50,7 +54,7 @@ if __name__ == "__main__":
 
     for i, sol in enumerate(solution):
         for node in nodes:
-            if eucl_distance(node, sol) < radius:
+            if eucl_distance(node, sol) <= radius:
                 node[2] = i
 
     scale = 1.5
@@ -63,16 +67,17 @@ if __name__ == "__main__":
     mask = nodes[:, 2] == -1
     _nodes = nodes[mask]
     _demand = demand[mask]
-    x, y, _ = zip(*_nodes)
-
-    ax.scatter(x, y, s=_demand, label=f"Not considered", alpha=0.5)
+    if _nodes.size > 0:
+        x, y, _ = zip(*_nodes)
+        ax.scatter(x, y, s=_demand, label=f"Not considered", alpha=0.5)
     for i, sol in enumerate(solution):
         mask = nodes[:, 2] == i
         _nodes = nodes[mask]
         _demand = demand[mask]
-        x, y, _ = zip(*_nodes)
 
-        ax.scatter(x, y, s=_demand, label=f"Considered by solution {i}")
+        if _nodes.size > 0:
+            x, y, _ = zip(*_nodes)
+            ax.scatter(x, y, s=_demand, label=f"Considered by solution {i}")
 
     for sol in solution:
         x, y = sol
@@ -84,8 +89,10 @@ if __name__ == "__main__":
     ax.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 
     ax.set_aspect('equal')
+    ax.set_title(f"Current score: {current_score}")
 
     plt.tight_layout()
 
-    fig.savefig("out.png", dpi=300)
+    filename = Path(args.solution).resolve().name
+    fig.savefig(f"{filename}.png", dpi=300)
 

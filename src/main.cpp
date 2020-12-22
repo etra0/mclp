@@ -1,3 +1,4 @@
+#include <cstring>
 #include <iostream>
 #include <mclp/argparse.hpp>
 #include <mclp/base_structure.hpp>
@@ -6,7 +7,7 @@
 #include <stdexcept>
 
 int main(const int argc, const char *argv[]) {
-  Arguments args{};
+  mclp::arguments args{};
 
   try {
     if (!args.parse(argc, argv))
@@ -16,7 +17,7 @@ int main(const int argc, const char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  Domain d;
+  mclp::domain d;
   try {
     d.parse_files(args.nodes, args.demand);
   } catch (std::invalid_argument &e) {
@@ -24,13 +25,21 @@ int main(const int argc, const char *argv[]) {
     return EXIT_FAILURE;
   }
 
-  Solver s(d, args.p, args.S);
+  mclp::solver s(d, args.p, args.S);
 
   s.find_initial_solution();
 
   s.print();
 
-  s.save_solution();
+  s.save_solution("solutions/solution_00");
+
+  char buffer[100];
+  std::memset(buffer, 0, sizeof(char));
+  for (int i = 1; i < 10; i++) {
+    s.refine_solution();
+    sprintf(buffer, "solutions/solution_%02d", i);
+    s.save_solution(buffer);
+  }
 
   return EXIT_SUCCESS;
 }

@@ -9,24 +9,28 @@
 #ifndef MCLP_MCLP_BASE_STRUCTURE_H_
 #define MCLP_MCLP_BASE_STRUCTURE_H_
 
-class Node {
+namespace mclp {
+
+class node {
 public:
   int x;
   int y;
   uint32_t demand;
 
-  Node(int x_, int y_, uint32_t demand_) : x(x_), y(y_), demand(demand_){};
+  node(int x, int y, uint32_t demand) : x(x), y(y), demand(demand){};
   void print();
 };
 
-class Domain {
+class domain {
 public:
-  std::vector<Node> nodes;
+  std::vector<node> nodes;
 
-  Domain() : nodes(){};
+  domain() : nodes(){};
 
   void print();
   void parse_files(std::string nodes_filename, std::string demand_filename);
 };
+
+} // namespace mclp
 
 #endif // MCLP_MCLP_BASE_STRUCTURE_H_
