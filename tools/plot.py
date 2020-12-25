@@ -7,7 +7,7 @@ from pathlib import Path
 def eucl_distance(a, b):
     x = a[0] - b[0]
     y = a[1] - b[1]
-    return np.sqrt(x*x + y*y)
+    return np.floor(np.sqrt(x*x + y*y))
 
 
 def parse_files(nodes, demand, solution):
