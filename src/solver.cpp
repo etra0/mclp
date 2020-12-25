@@ -93,10 +93,10 @@ void solver::find_initial_solution() {
 }
 
 int solver::refine_solution() {
-  auto current_sol = best_solution;
+  auto const & current_sol = best_solution;
   uint32_t current_best_score = best_score;
 
-  std::pair<size_t, mclp::node *> candidate{0, nullptr};
+  std::pair<size_t, size_t> candidate {0, 0};
 
   std::cout << "Refining solution " << std::endl;
 
@@ -121,24 +121,24 @@ int solver::refine_solution() {
         if (current_score > current_best_score && !in_tabu) {
           current_best_score = current_score;
           candidate.first = i;
-          candidate.second = &destination;
+          candidate.second = j;
         }
       }
     }
   }
 
-  if (!candidate.second) {
+  if ((current_best_score == best_score) && candidate.first == 0 && candidate.second == 0) {
     std::cout << "Couldn't found a better solution, stopping future iterations" << std::endl;
     return 0;
   }
 
-  tabulist.push_back(candidate.first);
+  tabulist.push_back(candidate.second);
 
   if (tabulist.size() > TABU_SIZE) {
     tabulist.pop_front();
   }
 
-  best_solution[candidate.first] = *(candidate.second);
+  best_solution[candidate.first] = problem_domain.nodes[candidate.second];
   best_score = current_best_score;
 
   return 1;
