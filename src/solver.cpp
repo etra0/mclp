@@ -51,8 +51,8 @@ void solver::find_initial_solution() {
 
     for (size_t i = 0; i < nodes.size(); i++) {
       // Skip nodes already covered
-      if (covered_cases.find(i) != covered_cases.end())
-        continue;
+      // if (covered_cases.find(i) != covered_cases.end())
+      //   continue;
       auto const &origin = nodes[i];
 
       current_covered_cases.clear();
@@ -144,7 +144,7 @@ int solver::refine_solution() {
   return 1;
 }
 
-uint32_t solver::calculate_score(std::vector<node> current_sol) {
+uint32_t solver::calculate_score(std::vector<node> & current_sol) {
   std::set<uint32_t> covered_cases;
   uint32_t score = 0;
   auto &domain = problem_domain.nodes;
