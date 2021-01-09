@@ -34,7 +34,7 @@ public:
   void save_solution(std::string name);
 
 private:
-  uint32_t calculate_score(std::vector<node> & current_sol);
+  uint32_t calculate_score(std::vector<node> &current_sol);
 };
 
 } // namespace mclp

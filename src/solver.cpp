@@ -93,10 +93,10 @@ void solver::find_initial_solution() {
 }
 
 int solver::refine_solution() {
-  auto const & current_sol = best_solution;
+  auto const &current_sol = best_solution;
   uint32_t current_best_score = best_score;
 
-  std::pair<size_t, size_t> candidate {0, 0};
+  std::pair<size_t, size_t> candidate{0, 0};
 
   std::cout << "Refining solution " << std::endl;
 
@@ -127,8 +127,10 @@ int solver::refine_solution() {
     }
   }
 
-  if ((current_best_score == best_score) && candidate.first == 0 && candidate.second == 0) {
-    std::cout << "Couldn't found a better solution, stopping future iterations" << std::endl;
+  if ((current_best_score == best_score) && candidate.first == 0 &&
+      candidate.second == 0) {
+    std::cout << "Couldn't found a better solution, stopping future iterations"
+              << std::endl;
     return 0;
   }
 
@@ -144,7 +146,7 @@ int solver::refine_solution() {
   return 1;
 }
 
-uint32_t solver::calculate_score(std::vector<node> & current_sol) {
+uint32_t solver::calculate_score(std::vector<node> &current_sol) {
   std::set<uint32_t> covered_cases;
   uint32_t score = 0;
   auto &domain = problem_domain.nodes;

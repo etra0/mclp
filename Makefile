@@ -31,7 +31,7 @@ FLAGS_RELEASE = --std=c++17 -O3 -I$(SOURCE_PATH)
 
 EXECUTABLE = $(OUTPUT_PATH)/mclp
 
-.PHONY: all clean run
+.PHONY: all clean run release
 
 all: $(OUTPUT_PATH) $(EXECUTABLE)
 
