@@ -33,7 +33,7 @@ EXECUTABLE = $(OUTPUT_PATH)/mclp
 
 .PHONY: all clean run release
 
-all: $(OUTPUT_PATH) $(EXECUTABLE)
+all: $(OUTPUT_PATH) $(EXECUTABLE) solutions instances
 
 release: FLAGS = $(FLAGS_RELEASE)
 release: all
@@ -43,6 +43,13 @@ run: all
 
 $(OUTPUT_PATH):
 	mkdir $(OUTPUT_PATH)
+
+# Make sure both solutions and instances paths exists
+solutions:
+	mkdir solutions
+
+instances:
+	mkdir instances
 
 $(EXECUTABLE): $(MAIN) $(patsubst $(SOURCE_PATH)/%.cpp, $(OUTPUT_PATH)/%.o, $(filter-out $(MAIN),$(wildcard $(SOURCE_PATH)/*.cpp)))
 	$(CXX) $(FLAGS) -o $@ $^
