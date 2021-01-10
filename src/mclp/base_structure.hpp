@@ -18,7 +18,16 @@ public:
   uint32_t demand;
 
   node(int x, int y, uint32_t demand) : x(x), y(y), demand(demand){};
-  void print();
+  void print() const;
+
+  friend inline bool operator==(const node &curr, const node &other) {
+    return curr.x == other.x && curr.y == other.y &&
+           curr.demand == other.demand;
+  }
+
+  friend inline bool operator!=(const node &curr, const node &other) {
+    return !(curr == other);
+  }
 };
 
 class domain {

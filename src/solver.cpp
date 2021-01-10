@@ -8,7 +8,6 @@ void solver::print() {
   }
 }
 
-// TODO: delet this
 void solver::save_solution(std::string name) {
   std::ofstream out;
 
@@ -21,11 +20,38 @@ void solver::save_solution(std::string name) {
   }
 }
 
+void solver::save_solution() {
+  std::ofstream out;
+
+  out.open("best_solution", std::ofstream::trunc);
+
+  out << best_score << std::endl;
+  out << S << std::endl;
+  for (auto n : best_solution) {
+    out << n.x << " " << n.y << std::endl;
+  }
+}
+
+void solver::find_random_solution() {
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  auto &domain_nodes = problem_domain.nodes;
+  auto size = static_cast<int>(domain_nodes.size());
+  std::uniform_int_distribution<> distrib(0, size);
+
+  for (uint32_t i = 0; i < p; i++) {
+    auto v = static_cast<size_t>(distrib(gen));
+    best_solution.push_back(domain_nodes[v]);
+  }
+
+  best_score = calculate_score(best_solution);
+}
+
 void solver::find_initial_solution() {
   utils::benchmark b(__PRETTY_FUNCTION__);
 
   // Do a deep copy to avoid some UB.
-  auto nodes = std::vector<node>(this->problem_domain.nodes);
+  auto const nodes = std::vector<node>(this->problem_domain.nodes);
   auto n_facilities = this->p;
   std::cout << "Calculating initial solution with:"
                "\np:\t\t"
@@ -94,7 +120,7 @@ void solver::find_initial_solution() {
 
 int solver::refine_solution() {
   auto const &current_sol = best_solution;
-  uint32_t current_best_score = best_score;
+  uint32_t current_best_score = 0;
 
   std::pair<size_t, size_t> candidate{0, 0};
 
@@ -104,7 +130,12 @@ int solver::refine_solution() {
     auto &node = current_sol[i];
 
     for (size_t j = 0; j < problem_domain.nodes.size(); j++) {
-      auto &destination = problem_domain.nodes[j];
+      if (i == j)
+        continue;
+      auto const &destination = problem_domain.nodes[j];
+      if (node == destination)
+        continue;
+
       // Check for candidates to the new solution
       if (mclp::utils::eucl_distance(node, destination) <= S) {
 
@@ -116,8 +147,8 @@ int solver::refine_solution() {
         auto current_score = solver::calculate_score(current_sol_);
 
         // Check if the current index is in the tabu list.
-        auto in_tabu =
-            std::find(tabulist.begin(), tabulist.end(), j) != tabulist.end();
+        auto in_tabu = std::find(tabulist.begin(), tabulist.end(),
+                                 destination) != tabulist.end();
         if (current_score > current_best_score && !in_tabu) {
           current_best_score = current_score;
           candidate.first = i;
@@ -127,21 +158,27 @@ int solver::refine_solution() {
     }
   }
 
-  if ((current_best_score == best_score) && candidate.first == 0 &&
-      candidate.second == 0) {
+  if (candidate.first == 0 && candidate.second == 0) {
     std::cout << "Couldn't found a better solution, stopping future iterations"
               << std::endl;
     return 0;
   }
 
-  tabulist.push_back(candidate.second);
+  tabulist.push_back(best_solution[candidate.first]);
 
+  // We check if the tabu list exceeds the allowed size and since it's a queue
+  // we can remove the front easily.
   if (tabulist.size() > TABU_SIZE) {
     tabulist.pop_front();
   }
 
   best_solution[candidate.first] = problem_domain.nodes[candidate.second];
   best_score = current_best_score;
+
+  if (best_score > global_best_score) {
+    global_best_score = best_score;
+    global_best_solution = best_solution;
+  }
 
   return 1;
 }

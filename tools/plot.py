@@ -94,5 +94,5 @@ if __name__ == "__main__":
     plt.tight_layout()
 
     filename = Path(args.solution).resolve().name
-    fig.savefig(f"{filename}.png", dpi=300)
+    fig.savefig(f"solutions/{filename}.png", dpi=300)
 

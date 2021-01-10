@@ -31,16 +31,18 @@ int main(const int argc, const char *argv[]) {
 
   s.print();
 
-  s.save_solution("solutions/solution_00");
+  s.save_solution("solutions/solution_0000");
 
   char buffer[100];
   std::memset(buffer, 0, sizeof(char));
   for (uint32_t i = 1; i < args.it; i++) {
     if (!s.refine_solution())
       break;
-    sprintf(buffer, "solutions/solution_%02d", i);
+    sprintf(buffer, "solutions/solution_%04d", i);
     s.save_solution(buffer);
   }
+
+  s.save_solution();
 
   return EXIT_SUCCESS;
 }

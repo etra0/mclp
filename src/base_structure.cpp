@@ -2,7 +2,7 @@
 
 namespace mclp {
 
-void node::print() {
+void node::print() const {
   std::cout << "{ x: " << x << ", y: " << y << ", demand: " << demand << " }\n";
 }
 
@@ -27,6 +27,10 @@ void domain::parse_files(std::string nodes_filename,
 
   // First read the number of pairs.
   nodes_file >> N;
+
+  if (N <= 0) {
+    throw std::invalid_argument("N must be greater than 0");
+  }
 
   for (uint32_t i = 0; i < N; i++) {
     int x, y;
