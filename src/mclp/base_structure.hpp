@@ -33,11 +33,15 @@ public:
 class domain {
 public:
   std::vector<node> nodes;
+  uint32_t sum_demand;
 
-  domain() : nodes(){};
+  domain() : nodes(), sum_demand(0) {};
 
   void print();
   void parse_files(std::string nodes_filename, std::string demand_filename);
+
+private:
+  void calculate_all_demand();
 };
 
 } // namespace mclp

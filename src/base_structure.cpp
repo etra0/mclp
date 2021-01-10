@@ -40,12 +40,21 @@ void domain::parse_files(std::string nodes_filename,
     demand_file >> demand;
     this->nodes.emplace_back(x, y, demand);
   }
+  this->calculate_all_demand();
 }
 
 void domain::print() {
   std::cout << "Nodes:" << std::endl;
   for (auto t : this->nodes) {
     t.print();
+  }
+
+}
+
+void domain::calculate_all_demand() {
+  sum_demand = 0;
+  for (auto &n : nodes) {
+    sum_demand += n.demand;
   }
 }
 

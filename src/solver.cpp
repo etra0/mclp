@@ -3,7 +3,11 @@
 namespace mclp {
 
 void solver::print() {
-  for (auto n : best_solution) {
+
+  std::cout.precision(3);
+  std::cout << "Score: " << global_best_score << std::endl;
+  std::cout << "Total coverage: " << global_best_score*100. / problem_domain.sum_demand << "%" << std::endl;
+  for (auto n : global_best_solution) {
     n.print();
   }
 }
@@ -44,6 +48,8 @@ void solver::find_random_solution() {
   }
 
   best_score = calculate_score(best_solution);
+  global_best_solution = best_solution;
+  global_best_score = best_score;
 }
 
 void solver::find_initial_solution() {
@@ -115,6 +121,8 @@ void solver::find_initial_solution() {
   }
 
   best_solution = current_sol;
+  global_best_solution = current_sol;
+  global_best_score = best_score;
 }
 
 int solver::refine_solution() {
