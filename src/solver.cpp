@@ -135,8 +135,6 @@ int solver::refine_solution() {
     auto &node = current_sol[i];
 
     for (size_t j = 0; j < problem_domain.nodes.size(); j++) {
-      if (i == j)
-        continue;
       auto const &destination = problem_domain.nodes[j];
       if (node == destination)
         continue;

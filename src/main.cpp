@@ -3,6 +3,7 @@
 #include <mclp/argparse.hpp>
 #include <mclp/base_structure.hpp>
 #include <mclp/solver.hpp>
+#include <mclp/utils.hpp>
 #include <memory>
 #include <stdexcept>
 
@@ -27,6 +28,8 @@ int main(const int argc, const char *argv[]) {
 
   mclp::solver s(d, args.p, args.S);
 
+  {
+    mclp::utils::benchmark b("main_loop");
 #ifdef RANDOM_SOL
   s.find_random_solution();
 #else
@@ -49,6 +52,7 @@ int main(const int argc, const char *argv[]) {
     sprintf(buffer, "solutions/solution_%04d", i);
     s.save_solution(buffer);
 #endif
+  }
   }
 
   s.save_solution();
