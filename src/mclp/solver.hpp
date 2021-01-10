@@ -29,14 +29,18 @@ public:
   // need to do a new iteration of the tabu list. We populate this list for the
   // first time when we do the Greedy search.
   std::vector<node> best_solution;
+  // We need to keep track of the best score in order to check if the new
+  // solution is better than the actual one.
   uint32_t best_score;
 
+  // We must save the best solution overall so these variables are the best
+  // solution found within all iterations
   std::vector<node> global_best_solution;
   uint32_t global_best_score;
 
-  // We need to keep track of the best score in order to check if the new
-  // solution is better than the actual one.
-
+  // Parameters of the problem.
+  // * p: number of servers
+  // * S: radius that a server will cover.
   uint32_t p;
   uint32_t S;
 
@@ -51,17 +55,22 @@ public:
   // Do a greedy search of a initial solution.
   void find_initial_solution();
 
-  // Do a random assignment of solution
+  // Do a random assignment for the initial solution
   void find_random_solution();
 
   // Use tabu search to refine solution in order to find a more optimal one.
   int refine_solution();
 
+  // Extra helper functions
   void print();
+  // Save solution with a name will save the current sol (not global sol)
   void save_solution(std::string name);
+
+  // This will save the global solution
   void save_solution();
 
 private:
+  // We use this function to calculate the score for a solution candidate.
   uint32_t calculate_score(std::vector<node> &current_sol);
 };
 

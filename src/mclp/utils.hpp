@@ -1,3 +1,7 @@
+/* Utils contains some useful functions that are not tightly related to the
+ * algorithm.
+ */
+
 #include <chrono>
 #include <cmath>
 #include <iostream>
@@ -6,6 +10,7 @@
 
 #ifndef MCLP_MCLP_UTILS_H_
 #define MCLP_MCLP_UTILS_H_
+
 
 namespace mclp {
 

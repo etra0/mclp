@@ -11,6 +11,9 @@
 
 namespace mclp {
 
+// Basic satructure which contains the position of the node (x and y
+// coordinates) and the demand. We implement some operators overload to make
+// the algorithm more explicit.
 class node {
 public:
   int x;
@@ -30,6 +33,8 @@ public:
   }
 };
 
+// Basic class that only contains the problem set and some helper functions to
+// dump the information
 class domain {
 public:
   std::vector<node> nodes;
