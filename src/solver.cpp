@@ -27,7 +27,7 @@ void solver::save_solution(std::string name) {
 void solver::save_solution() {
   std::ofstream out;
 
-  out.open("best_solution", std::ofstream::trunc);
+  out.open("solutions/best_solution", std::ofstream::trunc);
 
   out << best_score << std::endl;
   out << S << std::endl;
