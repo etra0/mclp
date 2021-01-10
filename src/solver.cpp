@@ -33,8 +33,7 @@ void solver::save_solution() {
 }
 
 void solver::find_random_solution() {
-  std::random_device rd;
-  std::mt19937 gen(rd());
+  std::mt19937 gen(SEED);
   auto &domain_nodes = problem_domain.nodes;
   auto size = static_cast<int>(domain_nodes.size());
   std::uniform_int_distribution<> distrib(0, size);
@@ -124,8 +123,6 @@ int solver::refine_solution() {
 
   std::pair<size_t, size_t> candidate{0, 0};
 
-  std::cout << "Refining solution " << std::endl;
-
   for (size_t i = 0; i < current_sol.size(); i++) {
     auto &node = current_sol[i];
 
@@ -159,7 +156,7 @@ int solver::refine_solution() {
   }
 
   if (candidate.first == 0 && candidate.second == 0) {
-    std::cout << "Couldn't found a better solution, stopping future iterations"
+    std::cout << "Couldn't found a better solution, stopping further iterations"
               << std::endl;
     return 0;
   }

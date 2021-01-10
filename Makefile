@@ -26,8 +26,8 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-Wvolatile-register-var  -Wwrite-strings 
 
 STACKTRACE = -fsanitize=address,undefined -fno-omit-frame-pointer
-FLAGS = -g $(WARNINGS) $(STACKTRACE) --std=c++17 -O0 -I$(SOURCE_PATH) 
-FLAGS_RELEASE = --std=c++17 -O3 -I$(SOURCE_PATH)
+FLAGS = -g $(WARNINGS) $(STACKTRACE) --std=c++17 -O0 -I$(SOURCE_PATH) $(CFLAGS)
+FLAGS_RELEASE = --std=c++17 -O3 -I$(SOURCE_PATH) $(CFLAGS)
 
 EXECUTABLE = $(OUTPUT_PATH)/mclp
 

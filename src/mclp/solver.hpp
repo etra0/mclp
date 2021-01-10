@@ -4,11 +4,18 @@
 #include <mclp/utils.hpp>
 #include <random>
 #include <set>
+#include <iomanip>
 
 #ifndef MCLP_MCLP_SOLVER_H_
 #define MCLP_MCLP_SOLVER_H_
 
+#ifndef SEED
+#define SEED 1234
+#endif
+
+#ifndef TABU_SIZE
 #define TABU_SIZE 200
+#endif
 
 namespace mclp {
 

@@ -27,22 +27,34 @@ int main(const int argc, const char *argv[]) {
 
   mclp::solver s(d, args.p, args.S);
 
+#ifdef RANDOM_SOL
+  s.find_random_solution();
+#else
   s.find_initial_solution();
+#endif
 
+  std::cout << "Initial solution:" << std::endl;
   s.print();
 
+#ifdef SAVE_SOLUTIONS
   s.save_solution("solutions/solution_0000");
+#endif
 
   char buffer[100];
   std::memset(buffer, 0, sizeof(char));
   for (uint32_t i = 1; i < args.it; i++) {
     if (!s.refine_solution())
       break;
+#ifdef SAVE_SOLUTIONS
     sprintf(buffer, "solutions/solution_%04d", i);
     s.save_solution(buffer);
+#endif
   }
 
   s.save_solution();
+
+  std::cout << "Best solution:" << std::endl;
+  s.print();
 
   return EXIT_SUCCESS;
 }
