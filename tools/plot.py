@@ -91,7 +91,7 @@ if __name__ == "__main__":
     ax.set_aspect('equal')
     ax.set_title(f"Current score: {current_score}")
 
-    plt.tight_layout()
+    fig.tight_layout(rect=[0, 0.03, 1, 0.93])
 
     filename = Path(args.solution).resolve().name
     fig.savefig(f"solutions/{filename}.png", dpi=300)

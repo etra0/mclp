@@ -49,8 +49,8 @@ public:
   std::deque<node> tabulist;
 
   solver(domain d, uint32_t p, uint32_t S)
-      : problem_domain(d), best_solution(), best_score(0), p(p), S(S),
-        global_best_solution(), global_best_score(0){};
+      : problem_domain(d), best_solution(), best_score(0), 
+        global_best_solution(), global_best_score(0), p(p), S(S) {};
 
   // Do a greedy search of a initial solution.
   void find_initial_solution();

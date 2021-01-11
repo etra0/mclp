@@ -29,9 +29,9 @@ void solver::save_solution() {
 
   out.open("solutions/best_solution", std::ofstream::trunc);
 
-  out << best_score << std::endl;
+  out << global_best_score << std::endl;
   out << S << std::endl;
-  for (auto n : best_solution) {
+  for (auto n : global_best_solution) {
     out << n.x << " " << n.y << std::endl;
   }
 }

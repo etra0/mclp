@@ -26,17 +26,17 @@ WARNINGS = -Wall -Weffc++ -pedantic \
 	-Wvolatile-register-var  -Wwrite-strings 
 
 STACKTRACE = -fsanitize=address,undefined -fno-omit-frame-pointer
-FLAGS = -g $(WARNINGS) $(STACKTRACE) --std=c++17 -O0 -I$(SOURCE_PATH) $(CFLAGS)
-FLAGS_RELEASE = --std=c++17 -O3 -I$(SOURCE_PATH) $(CFLAGS)
+FLAGS_DEBUG = -g $(WARNINGS) $(STACKTRACE) --std=c++17 -O0 -I$(SOURCE_PATH) $(CFLAGS)
+FLAGS = --std=c++17 -O3 -I$(SOURCE_PATH) $(CFLAGS)
 
 EXECUTABLE = $(OUTPUT_PATH)/mclp
 
-.PHONY: all clean run release
+.PHONY: all clean run debug
 
 all: $(OUTPUT_PATH) $(EXECUTABLE) solutions instances
 
-release: FLAGS = $(FLAGS_RELEASE)
-release: all
+debug: FLAGS = $(FLAGS_DEBUG)
+debug: all
 
 run: all
 	$(OUTPUT_PATH)/mclp

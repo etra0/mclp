@@ -6,7 +6,7 @@ from pathlib import Path
 import os
 
 def image_to_np(file_name, max_size=500):
-    image = Image.open(file_name)
+    image = Image.open(file_name).convert('RGBA')
     proportion = image.width / image.height
     image = image.resize((int(max_size*proportion), max_size))
     return np.asarray(image)
@@ -29,12 +29,24 @@ if __name__ == "__main__":
     if args.threshold < 0:
         raise ValueError("Threshold must be greater than 0")
 
-    data_array = image_to_np(args.image)
+    data_array = image_to_np(args.image).copy()
+    data_array.setflags(write=1)
+
+    if len(data_array.shape) < 3 or data_array.shape[2] < 3:
+        raise Exception("The image is not supported since it's not RGB nor RGBA")
+
+    if data_array.shape[2] == 4:
+        mask = data_array[:, :, 3] < 0.3
+        data_array[:, :, 0] = 255*mask
+        data_array[:, :, 1] = 255*mask
+        data_array[:, :, 2] = 255*mask
+
     black_and_white = np.flip(data_array[:, :, :3].mean(axis=2).T, 1)
+        
 
     values = np.argwhere((black_and_white < args.threshold))
 
-    assert values.size > 0, "The size of the array is 0, check your params"
+    assert values.size > 0, "The size of the array is 0, check the image or the threshold param"
 
     np.random.shuffle(values)
     values = values[:args.n, :]
